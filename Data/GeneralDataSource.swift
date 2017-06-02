@@ -23,11 +23,7 @@ class GeneralDataSource<CellType: UIView, ItemType>: NSObject, UITableViewDataSo
     }
 
     // MARK: UITableViewDataSource
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
-        if items.count <= 0 {
-            return 0
-        }
-
+    func numberOfSections(in tableView: UITableView) -> Int {
         return items.count
     }
 

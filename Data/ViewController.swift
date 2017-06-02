@@ -23,6 +23,12 @@ class ViewController: UITableViewController {
         p2.name = "22";
         let p3 =   Person();
         p3.name = "33";
+        let arr = [p1,p2,p3];
+        let filterArr =  arr.ndElement { (p) -> Bool in
+            p.name == "11"
+        }
+        let arr2 = [1,2,3];
+//        arr2.map2(transform: <#T##(Int) -> U#>)
 
 //        self.tableView.register(UITableViewCell.class, forCellReuseIdentifier: "Cell")
       
@@ -31,8 +37,16 @@ class ViewController: UITableViewController {
         }
         self.tableView.dataSource = dataSource
 //        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            
+            let p5 =   Person();
+            p5.name = "11";
+            self.dataSource?.items.append([p5]);
+            self.tableView.reloadData()
+        };
        
     }
+    
     
     
 //    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -52,6 +66,40 @@ class ViewController: UITableViewController {
 
 }
 
+
+extension Array {
+    func map2<U>(transform: @escaping (Element) -> U) -> [U] {
+        return reduce([]) {
+            $0 + [transform($1)]
+        } }
+    func  lter2 (includeElement: (Element) -> Bool) -> [Element] { return reduce([]) {
+        includeElement($1) ? $0 + [$1] : $0 }
+    } }
+
+
+extension Array {
+    func reduce<U>(initial: U, combine: (U, Element) -> U) -> U {
+        var result = initial; for e in self {result = combine(result,e)
+        }
+        return result
+    }
+}
+
+extension Sequence {
+    func  ndElement (match: (Iterator.Element)->Bool) -> Iterator.Element? {
+        for element in self where match(element) { return element
+        }
+        return nil
+    }
+}
+
+extension Array {
+    func accumulate<U>(initial: U, combine: (U, Element) -> U) -> [U] {
+        var running = initial
+        return self.map { next in
+            running = combine(running, next)
+            return running }
+    } }
 
 extension UIViewController{
     open  override static func initialize()
